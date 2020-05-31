@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import socketio from 'socket.io-client'
 
+const io = socketio('http://localhost:8000')
 function App() {
+
+
+  useEffect(() => {
+    io.on('pulse', () => {
+      console.log('pulse')
+    });
+  }, [])
+
   return (
     <div className="App">
       <header className="App-header">
