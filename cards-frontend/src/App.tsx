@@ -1,36 +1,25 @@
 import React, { useEffect } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import socketio from 'socket.io-client'
+import { parseCard } from './card';
 
 const io = socketio('http://localhost:8000')
-function App() {
 
-
+const App: React.FC<{}> = () => {
   useEffect(() => {
-    io.on('pulse', () => {
-      console.log('pulse')
+    io.on('card drawn', (response: any) => {
+      const card = parseCard(response.suit, response.value)
+      console.log('Card drawn:', card.toString())
     });
   }, [])
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <button onClick={drawCard}>Draw a card</button>
   );
+}
+
+const drawCard = () => {
+  io.emit('draw card')
 }
 
 export default App;
