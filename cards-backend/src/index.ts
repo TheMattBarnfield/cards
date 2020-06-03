@@ -6,12 +6,14 @@ import UserController from './controllers/UserController'
 import Controller from './controllers/Controller'
 import CardController from './controllers/CardController';
 import CardService from './services/CardService';
+import TurnService from './services/TurnService';
 
 const app = express()
 const server = http.createServer(app)
 const io = socketio(server)
 
-const userService = new UserService()
+const turnService = new TurnService()
+const userService = new UserService(turnService)
 const cardService = new CardService()
 
 const controllers: Controller[] = [
