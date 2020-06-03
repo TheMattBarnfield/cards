@@ -1,7 +1,7 @@
 import { shuffledDeck, Card } from '../card'
 
 export default class CardService {
-  private readonly deck = shuffledDeck()
+  constructor(private readonly deck: Card[]){}
 
   drawCard = (): Card => {
     const card = this.deck.pop()

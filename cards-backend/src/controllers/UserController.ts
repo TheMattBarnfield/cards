@@ -30,6 +30,6 @@ export default class UserController extends Controller {
     this.sendTurnOrder()
   }
 
-  private sendTurnOrder = () => this.io.emit('turn order', this.userService.getNamesInTurnOrder())
+  private readonly sendTurnOrder = () => this.io.emit('turn order', this.userService.getNamesInTurnOrder())
 }
 
