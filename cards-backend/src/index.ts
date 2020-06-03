@@ -1,21 +1,22 @@
 import express from 'express'
 import * as http from 'http'
 import socketio from 'socket.io'
-import { shuffledDeck } from './card'
 import UserService from './services/UserService'
 import UserController from './controllers/UserController'
 import Controller from './controllers/Controller'
+import CardController from './controllers/CardController';
+import CardService from './services/CardService';
 
-const app = express();
-const server = http.createServer(app);
-const io = socketio(server);
-
-const deck = shuffledDeck()
+const app = express()
+const server = http.createServer(app)
+const io = socketio(server)
 
 const userService = new UserService()
+const cardService = new CardService()
 
 const controllers: Controller[] = [
-  new UserController(io, userService)
+  new UserController(io, userService),
+  new CardController(io, cardService)
 ]
 
 app.get('/', (req, res) => {
@@ -23,16 +24,6 @@ app.get('/', (req, res) => {
 });
 
 io.on('connection', (socket) => {
-
-  socket.on('draw card', () => {
-    const card = deck.pop();
-    if (!card) {
-      throw new Error('Card drawn from empty deck')
-    }
-    console.log('Card drawn: ', card.toString())
-    io.emit('card drawn', card)
-  })
-
   controllers.forEach(controller => controller.onNewConnection(socket))
 
   console.log('a user connected')

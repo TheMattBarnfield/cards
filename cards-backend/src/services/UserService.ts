@@ -1,30 +1,36 @@
-import {Server} from 'socket.io'
+import TurnService from './TurnService';
 
 export interface User {
   name: string
 }
 
+const DEFAULT_NAME = "NAME_NOT_SET"
+
 export default class UserService {
   private readonly users: {[id: string]: User} = {}
-  private readonly turnOrder: string[] = []
 
-  setName = (id: string) => (name: string) => {
+  constructor(
+    private readonly turnService: TurnService
+  ) {}
+
+  setName = (id: string, name: string) => {
     this.users[id].name = name
   }
 
   createUser = (id: string) => {
     this.users[id] = {
-      name: "NAME_NOT_SET"
+      name: DEFAULT_NAME
     }
-    this.turnOrder.push(id)
+    this.turnService.addUser(id)
   }
 
   deleteUser = (id: string) => {
     delete this.users[id]
-    const index = this.turnOrder.indexOf(id)
-    this.turnOrder.splice(index, 1)
+    this.turnService.removeUser(id)
   }
 
-  getNamesInTurnOrder = (): string[] => this.turnOrder.map(id => this.users[id].name)
+  getNamesInTurnOrder = (): string[] => this.turnService.getTurnOrder()
+    .map(id => this.users[id].name)
+    .filter(name => name !== DEFAULT_NAME)
 }
 

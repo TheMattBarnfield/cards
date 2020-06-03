@@ -36,7 +36,9 @@ export class Card {
   }
 }
 
-export const parseCard = (suit: any, value: any): Card => {
+export const parseCard = (card: any): Card => {
+  const value = card.value
+  const suit = card.suit
   if (typeof value === 'number' 
     && Number.isInteger(value) 
     && value > 0
