@@ -1,5 +1,5 @@
 import CardService from '../../src/services/CardService';
-import { Card, Suit } from '../../src/card';
+import { Card, Suit } from '../../src/models/card';
 import { assert } from 'chai';
 
 describe('CardService', () => {

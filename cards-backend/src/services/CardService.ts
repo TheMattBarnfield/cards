@@ -1,4 +1,4 @@
-import { shuffledDeck, Card } from '../card'
+import { shuffledDeck, Card } from '../models/card'
 
 export default class CardService {
   constructor(private readonly deck: Card[]){}

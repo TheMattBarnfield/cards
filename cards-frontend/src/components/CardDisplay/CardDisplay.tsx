@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, Suit, Value } from '../../card'
+import { Card, Suit, Value } from '../../models/card'
 import './CardDisplay.css'
 
 interface Props {

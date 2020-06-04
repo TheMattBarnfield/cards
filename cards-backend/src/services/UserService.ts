@@ -1,8 +1,5 @@
 import TurnService from './TurnService';
-
-export interface User {
-  name: string
-}
+import User from '../models/user';
 
 const DEFAULT_NAME = "NAME_NOT_SET"
 
@@ -19,6 +16,7 @@ export default class UserService {
 
   createUser = (id: string) => {
     this.users[id] = {
+      id: id,
       name: DEFAULT_NAME
     }
     this.turnService.addUser(id)
@@ -29,8 +27,8 @@ export default class UserService {
     this.turnService.removeUser(id)
   }
 
-  getNamesInTurnOrder = (): string[] => this.turnService.getTurnOrder()
-    .map(id => this.users[id].name)
-    .filter(name => name !== DEFAULT_NAME)
+  getUsersInTurnOrder = (): User[] => this.turnService.getTurnOrder()
+    .map(id => this.users[id])
+    .filter(user => user.name !== DEFAULT_NAME)
 }
 

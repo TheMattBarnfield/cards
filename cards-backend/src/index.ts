@@ -7,7 +7,7 @@ import Controller from './controllers/Controller'
 import CardController from './controllers/CardController';
 import CardService from './services/CardService';
 import TurnService from './services/TurnService';
-import { shuffledDeck } from './card'
+import { shuffledDeck } from './models/card'
 
 const app = express()
 const server = http.createServer(app)

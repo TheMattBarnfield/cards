@@ -2,10 +2,6 @@ import {Server, Socket} from 'socket.io'
 import UserService from '../services/UserService'
 import Controller from './Controller'
 
-export interface User {
-  name: string
-}
-
 export default class UserController extends Controller {
   constructor(
     private readonly io: Server, 
@@ -17,6 +13,8 @@ export default class UserController extends Controller {
     socket.on('disconnect', this.onDisconnect(socket.id))
 
     this.userService.createUser(socket.id)
+
+    socket.emit('set id', socket.id)
     this.sendTurnOrder()
   }
 
@@ -30,6 +28,6 @@ export default class UserController extends Controller {
     this.sendTurnOrder()
   }
 
-  private readonly sendTurnOrder = () => this.io.emit('turn order', this.userService.getNamesInTurnOrder())
+  private readonly sendTurnOrder = () => this.io.emit('turn order', this.userService.getUsersInTurnOrder())
 }
 

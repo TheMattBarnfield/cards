@@ -10,6 +10,6 @@ export default class TurnService {
     this.turnOrder.splice(index, 1)
   }
 
-  getTurnOrder = () => [...this.turnOrder]
+  getTurnOrder = (): string[] => [...this.turnOrder]
 }
 
