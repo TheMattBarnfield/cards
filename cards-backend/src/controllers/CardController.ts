@@ -13,7 +13,6 @@ export default class CardController extends Controller {
   ) {super()}
 
   onNewConnection(socket: Socket) {
-
     socket.on('draw card', () => {
       if (!this.turnService.isPlayersTurn(socket.id)) {
         return;
@@ -24,6 +23,8 @@ export default class CardController extends Controller {
       this.messages.cardDrawn(card)
       this.messages.currentTurn(turn)
     })
+
+    this.messages.currentTurn(this.turnService.getCurrentPlayerId())
   }
 }
 

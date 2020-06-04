@@ -3,15 +3,16 @@ import User from '../models/user'
 import ListGroup from 'react-bootstrap/ListGroup'
 
 interface Props {
+  currentTurnId?: string
   userId: string
   turnOrder: User[]
 }
 
-const TurnOrder: React.FC<Props> = ({userId, turnOrder}) => (
+const TurnOrder: React.FC<Props> = ({userId, turnOrder, currentTurnId}) => (
     <ListGroup>
-      {turnOrder.map(user => 
-        <ListGroup.Item key={user.id}>
-          {user.name}{user.id === userId && " (you)"}
+      {turnOrder.map(({id, name}) => 
+        <ListGroup.Item key={id} active={currentTurnId===id}>
+          {name}{id === userId && " (you)"}
         </ListGroup.Item>
       )}
     </ListGroup>

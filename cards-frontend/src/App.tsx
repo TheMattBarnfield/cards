@@ -20,6 +20,7 @@ const App: React.FC<{}> = () => {
   const [turnOrder, setTurnOrder] = useState<User[]>([]);
   const [lastDrawnCard, setLastDrawnCard] = useState<Card>();
   const [userId, setUserId] = useState<string>('');
+  const [currentTurnId, setCurrentTurnId] = useState<string>();
 
   useEffect(() => {
     io.on('set id', (response: any) => {
@@ -42,6 +43,14 @@ const App: React.FC<{}> = () => {
         throw new Error(`Invalid turn order: ${response}`)
       }
     });
+
+    io.on('current turn', (response: any) => {
+      if(typeof response === 'string') {
+        setCurrentTurnId(response)
+      } else {
+        throw new Error(`Invalid current turn id: ${response}`)
+      }
+    })
   }, []);
 
   return (
@@ -57,7 +66,7 @@ const App: React.FC<{}> = () => {
           </Col>
           <Col xs={12} md={6} lg={4}>
             <div className="mb-2"><Name io={io} /></div>
-            <TurnOrder userId={userId} turnOrder={turnOrder} />
+            <TurnOrder userId={userId} turnOrder={turnOrder} currentTurnId={currentTurnId} />
           </Col>
         </Row>
       </Container>
