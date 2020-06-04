@@ -8,6 +8,7 @@ import CardController from './controllers/CardController';
 import CardService from './services/CardService';
 import TurnService from './services/TurnService';
 import { shuffledDeck } from './models/card'
+import Messages from './Messages';
 
 const app = express()
 const server = http.createServer(app)
@@ -17,9 +18,11 @@ const turnService = new TurnService()
 const userService = new UserService(turnService)
 const cardService = new CardService(shuffledDeck())
 
+const messages = new Messages(io);
+
 const controllers: Controller[] = [
-  new UserController(io, userService),
-  new CardController(io, cardService)
+  new UserController(messages, userService),
+  new CardController(messages, cardService, turnService)
 ]
 
 app.get('/', (req, res) => {

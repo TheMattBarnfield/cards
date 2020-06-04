@@ -1,10 +1,11 @@
 import {Server, Socket} from 'socket.io'
 import UserService from '../services/UserService'
 import Controller from './Controller'
+import Messages from '../Messages'
 
 export default class UserController extends Controller {
   constructor(
-    private readonly io: Server, 
+    private readonly messages: Messages, 
     private readonly userService: UserService
   ) {super()}
 
@@ -28,6 +29,6 @@ export default class UserController extends Controller {
     this.sendTurnOrder()
   }
 
-  private readonly sendTurnOrder = () => this.io.emit('turn order', this.userService.getUsersInTurnOrder())
+  private readonly sendTurnOrder = () => this.messages.turnOrder(this.userService.getUsersInTurnOrder())
 }
 

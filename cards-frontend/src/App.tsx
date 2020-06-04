@@ -46,13 +46,13 @@ const App: React.FC<{}> = () => {
 
   return (
     <div>
-      <NavBar bg="primary" variant="dark" className="mb-2">
+      <NavBar bg="primary" variant="dark" className="mb-5">
         <NavBar.Brand>Cards</NavBar.Brand>
       </NavBar>
       <Container>
         <Row>
-          <Col xs={12} md={6} lg={8}>
-            {lastDrawnCard && <CardDisplay card={lastDrawnCard} />}
+          <Col xs={12} md={6} lg={8} className="d-flex flex-column align-items-center mb-4">
+            <CardDisplay card={lastDrawnCard} />
             <Button variant="primary" onClick={drawCard}>Draw a card</Button>
           </Col>
           <Col xs={12} md={6} lg={4}>

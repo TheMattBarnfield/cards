@@ -3,16 +3,20 @@ import { Card, Suit, Value } from '../../models/card'
 import './CardDisplay.css'
 
 interface Props {
-  card: Card
+  card?: Card
 }
 
 const CardDisplay: React.FC<Props> = ({card}) => {
   return (
-    <div className="playingCards faceImages">
-      <div className={`card rank-${getRank(card.value)} ${getSuit(card.suit)}`}>
+    <div className="playingCards faceImages text-center mb-5">
+      {card ?
+      <div className={`m-0 card rank-${getRank(card.value)} ${getSuit(card.suit)}`}>
         <span className="rank">{getRank(card.value).toUpperCase()}</span>
         <span className="suit">{getSymbol(card.suit)}</span>
       </div>
+      :
+      <div className="card back m-0"></div>
+      }
     </div>
   );
 }

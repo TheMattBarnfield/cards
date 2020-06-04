@@ -13,21 +13,21 @@ const Name: React.FC<{io: SocketIOClient.Socket}> = ({io}) => {
 
   return (
     <Form onSubmit={onSubmit}>
-      <Form.Row>
-        <Col>
-          <Form.Control 
-            type="text" 
-            placeholder="Your name" 
-            value={name} 
-            onChange={e => setName(e.target.value)}
-          />
-        </Col>
-        <Col>
-          <Button variant="primary" type="submit">
-            Set name
-          </Button>
-        </Col>
-      </Form.Row>
+      <div className="d-flex">
+        <Form.Control 
+          type="text" 
+          placeholder="Your name" 
+          value={name} 
+          onChange={e => setName(e.target.value)}
+        />
+        <Button 
+          variant="primary" 
+          type="submit"
+          className="text-nowrap ml-2"
+        >
+          Set name
+        </Button>
+      </div>
     </Form>
   );
 }

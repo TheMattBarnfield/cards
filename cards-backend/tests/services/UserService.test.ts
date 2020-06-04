@@ -21,6 +21,12 @@ describe('UserService', () => {
     userService.setName(id1, name1)
     userService.setName(id2, name2)
 
-    assert.deepEqual(userService.getNamesInTurnOrder(), [name1, name2])
+    assert.deepEqual(userService.getUsersInTurnOrder(), [{
+      name: name1,
+      id: id1
+    }, {
+      name: name2,
+      id: id2
+    }])
   })
 })

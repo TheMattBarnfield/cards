@@ -1,8 +1,6 @@
 import TurnService from './TurnService';
 import User from '../models/user';
 
-const DEFAULT_NAME = "NAME_NOT_SET"
-
 export default class UserService {
   private readonly users: {[id: string]: User} = {}
 
@@ -17,7 +15,7 @@ export default class UserService {
   createUser = (id: string) => {
     this.users[id] = {
       id: id,
-      name: DEFAULT_NAME
+      name: `Player #${Math.floor(Math.random()*1000)}`
     }
     this.turnService.addUser(id)
   }
@@ -29,6 +27,5 @@ export default class UserService {
 
   getUsersInTurnOrder = (): User[] => this.turnService.getTurnOrder()
     .map(id => this.users[id])
-    .filter(user => user.name !== DEFAULT_NAME)
 }
 

@@ -22,7 +22,7 @@
   padding: .25em;
   margin: 0 .5em .5em 0;
   text-align: center;
-  font-size: 1.2em; /* @change: adjust this value to make bigger or smaller cards */
+  font-size: 5em; /* @change: adjust this value to make bigger or smaller cards */
   font-weight: normal;
   font-family: Arial, sans-serif;
   position: relative;
@@ -325,7 +325,7 @@
 .playingCards.faceImages .card.rank-k,
 .playingCards.faceImages .card.joker {
   background-repeat: no-repeat;
-  background-position: -1em 0;
+  background-position: 0.8em 0.8em;
   /* @change: smaller cards: more negative distance from the left
      bigger cards: 0 or more positive distance from the left */
 
