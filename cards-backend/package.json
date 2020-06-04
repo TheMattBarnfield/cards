@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "watch": "nodemon",
-    "test": "mocha -r ts-node/register tests/**/*.test.ts"
+    "test": "mocha -r ts-node/register tests/**/*.test.ts",
+    "heroku-postbuild": "cd ../cards-frontend && yarn && yarn run build"
   },
   "devDependencies": {
     "@types/chai": "^4.2.11",

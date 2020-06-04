@@ -1,5 +1,6 @@
 import express from 'express'
 import * as http from 'http'
+import * as path from 'path'
 import socketio from 'socket.io'
 import UserService from './services/UserService'
 import UserController from './controllers/UserController'
@@ -25,8 +26,10 @@ const controllers: Controller[] = [
   new CardController(messages, cardService, turnService)
 ]
 
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
+app.use(express.static(path.join(__dirname, '../../cards-frontend/build')));
+
+app.get('/', function (req, res) {
+  res.sendFile(path.join(__dirname, '../../cards-frontend/build', 'index.html'));
 });
 
 io.on('connection', (socket) => {
