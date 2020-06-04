@@ -14,7 +14,7 @@ import Col from 'react-bootstrap/Col'
 import NavBar from 'react-bootstrap/NavBar'
 
 
-const io = socketio('http://localhost:8000')
+const io = socketio('/')
 
 const App: React.FC<{}> = () => {
   const [turnOrder, setTurnOrder] = useState<User[]>([]);
