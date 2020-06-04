@@ -6,7 +6,7 @@
   "scripts": {
     "watch": "nodemon",
     "test": "mocha -r ts-node/register tests/**/*.test.ts",
-    "heroku-postbuild": "cd ../cards-frontend && yarn && yarn run build"
+    "heroku-postbuild": "cd frontend && yarn && yarn run build"
   },
   "devDependencies": {
     "@types/chai": "^4.2.11",

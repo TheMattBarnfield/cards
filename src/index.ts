@@ -26,10 +26,10 @@ const controllers: Controller[] = [
   new CardController(messages, cardService, turnService)
 ]
 
-app.use(express.static(path.join(__dirname, '../../cards-frontend/build')));
+app.use(express.static(path.join(__dirname, '../frontend/build')));
 
 app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, '../../cards-frontend/build', 'index.html'));
+  res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
 });
 
 io.on('connection', (socket) => {
