@@ -8,6 +8,7 @@ const Name: React.FC<{io: SocketIOClient.Socket}> = ({io}) => {
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     io.emit('set name', name)
+    setName("")
   }
 
   return (

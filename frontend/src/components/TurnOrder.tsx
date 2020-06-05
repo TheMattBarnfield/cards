@@ -9,7 +9,7 @@ interface Props {
 }
 
 const TurnOrder: React.FC<Props> = ({userId, turnOrder, currentTurnId}) => (
-    <ListGroup>
+    <ListGroup variant="flush">
       {turnOrder.map(({id, name}) => 
         <ListGroup.Item key={id} active={currentTurnId===id}>
           {name}{id === userId && " (you)"}

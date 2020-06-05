@@ -1,6 +1,7 @@
-import { Server } from 'socket.io';
+import { Server, Socket } from 'socket.io';
 import { Card } from './models/card';
 import User from './models/user';
+import { ChatMessage } from './models/chatMessage';
 
 export default class Messages {
   constructor(private readonly io: Server){}
@@ -14,6 +15,22 @@ export default class Messages {
   }
   
   readonly currentTurn = (currentTurnId: string) => {
-    this.io.emit('current turn', currentTurnId);
+    this.io.emit('current turn', currentTurnId)
+  }
+
+  readonly setId = (socket: Socket) => {
+    socket.emit('set id', socket.id)
+  }
+
+  readonly serverMessage = (message: string) => {
+    this.chatMessage({
+      fromServer: true,
+      sender: "server",
+      message
+    })
+  }
+
+  readonly chatMessage = (message: ChatMessage) => {
+    this.io.emit('chat message', message)
   }
 }

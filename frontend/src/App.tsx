@@ -1,57 +1,51 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import socketio from 'socket.io-client'
-import { parseCard, Card } from './models/card';
+import { parseCard, Card as CardModel } from './models/card';
 import Name from './components/Name';
+import Chat from './components/Chat';
 import TurnOrder from './components/TurnOrder';
 import CardDisplay from './components/CardDisplay/CardDisplay';
-import User, {parseUser} from './models/user'
-import { isArray, every } from 'lodash';
+import User from './models/user'
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import NavBar from 'react-bootstrap/Navbar'
+import { ChatMessage } from './models/chatMessage';
+import Card from 'react-bootstrap/Card'
 
+const CHAT_HISTORY_MAX_LENGTH = 15;
 
 const io = socketio('/')
 
 const App: React.FC<{}> = () => {
   const [turnOrder, setTurnOrder] = useState<User[]>([]);
-  const [lastDrawnCard, setLastDrawnCard] = useState<Card>();
+  const [lastDrawnCard, setLastDrawnCard] = useState<CardModel>();
   const [userId, setUserId] = useState<string>('');
   const [currentTurnId, setCurrentTurnId] = useState<string>();
+  const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
 
   useEffect(() => {
-    io.on('set id', (response: any) => {
-      if (typeof response === 'string') {
-        setUserId(response)
-      } else {
-        throw new Error(`Invalid user id: ${response}`)
-      }
-    });
-
+    io.on('set id', setUserId);
     io.on('card drawn', (response: any) => {
       const card = parseCard(response)
       setLastDrawnCard(card)
     });
-
-    io.on('turn order', (response: any) => {
-      if(isArray(response) && every(response.map(parseUser))) {
-        setTurnOrder(response)
-      } else {
-        throw new Error(`Invalid turn order: ${response}`)
-      }
-    });
-
-    io.on('current turn', (response: any) => {
-      if(typeof response === 'string') {
-        setCurrentTurnId(response)
-      } else {
-        throw new Error(`Invalid current turn id: ${response}`)
-      }
-    })
+    io.on('turn order', setTurnOrder)
+    io.on('current turn', setCurrentTurnId)
+    io.on('chat message', (message: ChatMessage) => setChatHistory(ch => 
+      [message, ...ch].slice(0, CHAT_HISTORY_MAX_LENGTH)
+    ))
   }, []);
+
+  const getNameForId = (id: string) => {
+    const user = turnOrder.find(user => user.id === id)
+    return user && user.name
+  }
+
+  const usersTurn = currentTurnId === userId
+  const currentTurnName = currentTurnId && getNameForId(currentTurnId)
 
   return (
     <div>
@@ -60,13 +54,35 @@ const App: React.FC<{}> = () => {
       </NavBar>
       <Container>
         <Row>
-          <Col xs={12} md={6} lg={8} className="d-flex flex-column align-items-center mb-4">
+          <Col xs={12} lg={4} className="d-flex flex-column align-items-center mb-4">
             <CardDisplay card={lastDrawnCard} />
-            <Button variant="primary" onClick={drawCard}>Draw a card</Button>
+            <Button 
+              disabled={!usersTurn}
+              variant="primary"
+              onClick={drawCard}
+            >Draw a card</Button>
           </Col>
           <Col xs={12} md={6} lg={4}>
-            <div className="mb-2"><Name io={io} /></div>
-            <TurnOrder userId={userId} turnOrder={turnOrder} currentTurnId={currentTurnId} />
+            <Card className='mb-3'>
+              <Card.Header>Turn Order</Card.Header>
+              <Card.Body>
+                <Card.Title>{usersTurn ? 'Your' : `${currentTurnName}'s`} turn</Card.Title>
+                <TurnOrder 
+                  userId={userId}
+                  turnOrder={turnOrder}
+                  currentTurnId={currentTurnId}
+                />
+              </Card.Body>
+              <Card.Footer>
+                <Name io={io} />
+              </Card.Footer>
+            </Card>
+          </Col>
+          <Col xs={12} md={6} lg={{span: "4", order: 'first' as any}}>
+            <Chat 
+              chatHistory={chatHistory}
+              sendMessage={message => io.emit('send message', message)}
+            />
           </Col>
         </Row>
       </Container>

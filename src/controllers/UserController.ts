@@ -9,20 +9,26 @@ export default class UserController extends Controller {
     private readonly userService: UserService
   ) {super()}
 
-  onNewConnection(socket: Socket) {
+  readonly onNewConnection = (socket: Socket) => {
     socket.on('set name', this.setName(socket.id))
-    socket.on('disconnect', this.onDisconnect(socket.id))
+    socket.on('send message', this.sendMessage(socket.id))
 
     this.userService.createUser(socket.id)
 
-    socket.emit('set id', socket.id)
+    this.messages.setId(socket)
     this.sendTurnOrder()
   }
 
-  private readonly onDisconnect = (id: string) => () => {
+  readonly onDisconnect = (id: string) => () => {
     this.userService.deleteUser(id)
     this.sendTurnOrder()
   }
+
+  private readonly sendMessage = (id: string) => (message: string) => this.messages.chatMessage({
+    fromServer: false,
+    sender: this.userService.getName(id),
+    message
+  })
 
   private readonly setName = (id: string) => (name: string) => {
     this.userService.setName(id, name)

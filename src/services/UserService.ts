@@ -8,11 +8,13 @@ export default class UserService {
     private readonly turnService: TurnService
   ) {}
 
-  setName = (id: string, name: string) => {
+  setName = (id: string, name: string): void => {
     this.users[id].name = name
   }
 
-  createUser = (id: string) => {
+  getName = (id: string): string => this.users[id].name
+
+  createUser = (id: string): void => {
     this.users[id] = {
       id: id,
       name: `Player #${Math.floor(Math.random()*1000)}`
@@ -20,7 +22,7 @@ export default class UserService {
     this.turnService.addUser(id)
   }
 
-  deleteUser = (id: string) => {
+  deleteUser = (id: string): void => {
     delete this.users[id]
     this.turnService.removeUser(id)
   }

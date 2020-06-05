@@ -39,7 +39,10 @@ app.get('/status', function (req, res) {
 });
 
 io.on('connection', (socket) => {
-  controllers.forEach(controller => controller.onNewConnection(socket))
+  controllers.forEach(controller => {
+    controller.onNewConnection(socket)
+    socket.on('disconnect', () => controller.onDisconnect(socket.id))
+  })
 
   console.log('a user connected')
 });
