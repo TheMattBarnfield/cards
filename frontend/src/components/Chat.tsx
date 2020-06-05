@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import { ChatMessage } from '../models/chatMessage'
 import Card from 'react-bootstrap/Card'
+import Alert from 'react-bootstrap/Alert'
 
 interface Props {
   sendMessage: (message: string) => void
@@ -22,8 +23,9 @@ const Chat: React.FC<Props> = ({sendMessage, chatHistory}) => {
     <Card>
       <Card.Header>Chat</Card.Header>
       <Card.Body style={{height: "20em", overflowY: "scroll", display: 'flex', flexDirection: 'column-reverse'}}>
-      {chatHistory.map(({sender, message}) => 
-        <span><strong>{sender}:</strong> {message}</span>
+      {chatHistory.map(({sender, message, fromServer}) => fromServer
+        ? <Alert variant='info'>{message}</Alert>
+        : <span><strong>{sender}:</strong> {message}</span>
       )}
       </Card.Body>
       <Card.Footer>

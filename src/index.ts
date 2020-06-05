@@ -19,13 +19,13 @@ const port = process.env.PORT || 8000
 
 const turnService = new TurnService()
 const userService = new UserService(turnService)
-const cardService = new CardService(shuffledDeck())
+const cardService = new CardService()
 
 const messages = new Messages(io);
 
 const controllers: Controller[] = [
   new UserController(messages, userService),
-  new CardController(messages, cardService, turnService)
+  new CardController(messages, cardService, turnService, userService)
 ]
 
 app.use(express.static(path.join(__dirname, '../../frontend/build')));

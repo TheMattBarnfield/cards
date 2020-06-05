@@ -44,13 +44,15 @@ const App: React.FC<{}> = () => {
     return user && user.name
   }
 
+  const isHost = turnOrder.length && turnOrder[0].id === userId
   const usersTurn = currentTurnId === userId
   const currentTurnName = currentTurnId && getNameForId(currentTurnId)
 
   return (
     <div>
-      <NavBar bg="primary" variant="dark" className="mb-5">
+      <NavBar bg="primary" variant="dark" className="mb-5 justify-content-between">
         <NavBar.Brand>Cards</NavBar.Brand>
+        {isHost && <Button onClick={newGame} variant="light">New game</Button>}
       </NavBar>
       <Container>
         <Row>
@@ -92,6 +94,10 @@ const App: React.FC<{}> = () => {
 
 const drawCard = () => {
   io.emit('draw card')
+}
+
+const newGame = () => {
+  io.emit('reset game')
 }
 
 export default App;
