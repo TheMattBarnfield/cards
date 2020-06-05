@@ -15,6 +15,8 @@ const app = express()
 const server = http.createServer(app)
 const io = socketio(server)
 
+const port = process.env.PORT || 8000
+
 const turnService = new TurnService()
 const userService = new UserService(turnService)
 const cardService = new CardService(shuffledDeck())
@@ -26,10 +28,14 @@ const controllers: Controller[] = [
   new CardController(messages, cardService, turnService)
 ]
 
-app.use(express.static(path.join(__dirname, '../frontend/build')));
+app.use(express.static(path.join(__dirname, '../../frontend/build')));
 
 app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
+  res.sendFile(path.join(__dirname, '../../frontend/build', 'index.html'));
+});
+
+app.get('/status', function (req, res) {
+  res.send("Server is running")
 });
 
 io.on('connection', (socket) => {
@@ -38,6 +44,6 @@ io.on('connection', (socket) => {
   console.log('a user connected')
 });
 
-server.listen(8000, () => {
-  console.log('listening on *:8000')
+server.listen(port, () => {
+  console.log(`listening on *:${port}`)
 });

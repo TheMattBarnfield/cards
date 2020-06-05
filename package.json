@@ -5,8 +5,9 @@
   "license": "MIT",
   "scripts": {
     "watch": "nodemon",
+    "build": "tsc && cd frontend && yarn install --production=false && yarn build",
     "test": "mocha -r ts-node/register tests/**/*.test.ts",
-    "heroku-postbuild": "cd frontend && yarn && yarn run build"
+    "start": "node build/src/index.js"
   },
   "devDependencies": {
     "@types/chai": "^4.2.11",
