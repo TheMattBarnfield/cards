@@ -28,6 +28,7 @@ export default class CardController extends Controller {
       return;
     }
     this.cardService.setDeck(shuffledDeck())
+    this.userService.clearLastCardDrawn()
     this.messages.serverMessage(`${this.userService.getName(id)} has started a new game!`)
   }
 
