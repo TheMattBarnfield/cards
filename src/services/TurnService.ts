@@ -6,6 +6,8 @@ export default class TurnService {
     this.turnOrder.push(id)
   }
 
+  isHost = (id: string): boolean => !!this.turnOrder.length && this.turnOrder[0] === id
+
   isPlayersTurn = (id: string): boolean => this.getCurrentPlayerId() === id
 
   getCurrentPlayerId = (): string => this.turnOrder[this.currentTurn]

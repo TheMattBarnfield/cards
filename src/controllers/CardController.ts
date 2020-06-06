@@ -24,7 +24,7 @@ export default class CardController extends Controller {
   readonly onDisconnect = (id: string) => this.turnService.removeUser(id)
 
   private readonly resetGame = (id: string) => () => {
-    if (!this.userService.isHost(id)) {
+    if (!this.turnService.isHost(id)) {
       return;
     }
     this.cardService.setDeck(shuffledDeck())
