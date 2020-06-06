@@ -23,10 +23,12 @@ describe('UserService', () => {
 
     assert.deepEqual(userService.getUsersInTurnOrder(), [{
       name: name1,
-      id: id1
+      id: id1,
+      lastCardDrawn: undefined
     }, {
       name: name2,
-      id: id2
+      id: id2,
+      lastCardDrawn: undefined
     }])
   })
 })
