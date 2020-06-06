@@ -7,9 +7,9 @@ interface Props {
   card?: Card
 }
 
-const CardDisplay: React.FC<Props> = ({card}) => {
+const InlineCard: React.FC<Props> = ({card}) => {
   return (
-    <div className="playingCards faceImages text-center mb-5">
+    <div className="playingCards inText mr-2">
       {card ?
       <div className={`m-0 card rank-${getRank(card.value)} ${getSuit(card.suit)}`}>
         <span className="rank">{getRank(card.value).toUpperCase()}</span>
@@ -22,4 +22,4 @@ const CardDisplay: React.FC<Props> = ({card}) => {
   );
 }
 
-export default CardDisplay;
+export default InlineCard;

@@ -23,9 +23,9 @@ const Chat: React.FC<Props> = ({sendMessage, chatHistory}) => {
     <Card>
       <Card.Header>Chat</Card.Header>
       <Card.Body style={{height: "20em", overflowY: "scroll", display: 'flex', flexDirection: 'column-reverse'}}>
-      {chatHistory.map(({sender, message, fromServer}) => fromServer
-        ? <Alert variant='info'>{message}</Alert>
-        : <span><strong>{sender}:</strong> {message}</span>
+      {chatHistory.map(({sender, message, fromServer, id}) => fromServer
+        ? <Alert variant='info' key={id}>{message}</Alert>
+        : <span key={id}><strong>{sender}:</strong> {message}</span>
       )}
       </Card.Body>
       <Card.Footer>

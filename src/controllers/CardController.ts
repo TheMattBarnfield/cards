@@ -41,8 +41,12 @@ export default class CardController extends Controller {
     }
     const card = this.cardService.drawCard()
     const turn = this.turnService.nextTurn()
+    
+    this.userService.setLastCardDrawn(id, card)
+
     this.messages.cardDrawn(card)
     this.messages.serverMessage(this.getCardDrawnMessage(this.userService.getName(id), card, this.cardService.cardsRemaining()))
+    this.messages.turnOrder(this.userService.getUsersInTurnOrder())
     this.messages.currentTurn(turn)
   }
 

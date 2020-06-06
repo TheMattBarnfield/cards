@@ -6,7 +6,7 @@ import Name from './components/Name';
 import Chat from './components/Chat';
 import TurnOrder from './components/TurnOrder';
 import CardDisplay from './components/CardDisplay/CardDisplay';
-import User from './models/user'
+import User, { parseUser } from './models/user'
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
@@ -32,12 +32,21 @@ const App: React.FC<{}> = () => {
       const card = parseCard(response)
       setLastDrawnCard(card)
     });
-    io.on('turn order', setTurnOrder)
+    io.on('turn order', (response: any) => setTurnOrder(response.map(parseUser)))
     io.on('current turn', setCurrentTurnId)
     io.on('chat message', (message: ChatMessage) => setChatHistory(ch => 
       [message, ...ch].slice(0, CHAT_HISTORY_MAX_LENGTH)
     ))
   }, []);
+
+  const drawCard = () => {
+    io.emit('draw card')
+  }
+  
+  const newGame = () => {
+    io.emit('reset game')
+    setLastDrawnCard(undefined)
+  }
 
   const getNameForId = (id: string) => {
     const user = turnOrder.find(user => user.id === id)
@@ -90,14 +99,6 @@ const App: React.FC<{}> = () => {
       </Container>
     </div>
   );
-}
-
-const drawCard = () => {
-  io.emit('draw card')
-}
-
-const newGame = () => {
-  io.emit('reset game')
 }
 
 export default App;

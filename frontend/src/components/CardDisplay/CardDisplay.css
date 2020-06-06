@@ -438,7 +438,6 @@
 }
 .playingCards.inText .card span.rank {
   font-size: 2em;
-  margin-top: .2em;
 }
 .playingCards.inText .card span.suit {
   font-size: 2.5em;

@@ -31,6 +31,9 @@ export default class Messages {
   }
 
   readonly chatMessage = (message: ChatMessage) => {
-    this.io.emit('chat message', message)
+    this.io.emit('chat message', {
+      id: Math.floor(Math.random() * 1000000),
+      ...message
+    })
   }
 }
